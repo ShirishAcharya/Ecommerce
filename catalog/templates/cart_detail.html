@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block cartdetail %}
+
+<h4>Following are the products in your Cart</h4>
+<div class="Container">
+    <div class="Row">
+        <div class="col">
+            <table class="Table">
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <!-- <td><img src="{{item.product.photo.url}}" alt="" style="height: auto; width: 300px;"></td> -->
+                        <td> <img src="{{item.product.photo.url}}" alt="" style="width: 50px; height: auto;">  </td>
+                        <td>{{item.product.name}}</td>
+                        <td>Rs. {{item.product.price}}</td>
+                        <td>{{item.quantity}}</td>
+                        <td>{{item.quantity}} x {{item.price}}</td>
+                        <td> <a href="/cart/delete/{{item.id}}"> Delete</a> </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

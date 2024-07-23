@@ -1,12 +1,13 @@
+from django.http import HttpResponse
 from django.shortcuts import render,redirect
-from catalog.models import Category,Product
+from catalog.models import Category,Product,ShoppingCart
 from catalog.forms import ProductForm,SignUpForm,LoginForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 # Create your views here.'
 
-@login_required(login_url="/login/")
 def home(request):
     products=Product.objects.all()
     return render(request,'index.html',{'products':products}) 
@@ -65,3 +66,24 @@ def update_product(request,id):
     else:
         form=ProductForm(instance=product)
     return render(request,'create_product.html',{'form':form})
+
+
+# shopping cart
+def product_detail(request,id):
+    product=Product.objects.get(id=id)
+    return render(request,'product_detail.html',{'product':product})
+
+@login_required(login_url="/login/")
+def add_to_cart(request,id):
+    product=Product.objects.get(id=id)
+    quantity=request.POST['quantity']
+    user=User.objects.get(id=request.user.id)
+    cart=ShoppingCart(product=product,user=user,quantity=quantity)
+    cart.save()
+    return HttpResponse("Success <a href='/'> Go back </a>")
+
+@login_required(login_url="/login/")
+def cart_detail(request):
+    user = User.objects.get(id=request.user.id)
+    items = ShoppingCart.objects.filter(user=user)
+    return render(request,'cart_detail.html',{'items':items})

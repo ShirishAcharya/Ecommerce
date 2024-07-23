@@ -18,8 +18,8 @@
                 <div class="Row">
                     {% for product in products %}
                     <div class="Col">
-                        <div class="card">
-                            <img src="{{product.photo.url}}" class="card-image-top" alt=""style="height: 200px;width: auto;">
+                        <div class="card border-0 shadow-sm">
+                            <a href="/product/{{product.id}}/"><img src="{{product.photo.url}}" class="card-img-top" alt="" style="height: 200px;width: auto;"></a>
                             <div class="card-body">
                                 <h5 class="card-title text-center">{{product.name}}</h5>
                                 <p class="card-text text-center">{{product.price}}</p>
